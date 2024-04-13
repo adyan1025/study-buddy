@@ -1,23 +1,41 @@
+from multiprocessing import Value
 from taipy.gui import Gui, Html
 
 home = Html("""
-  <div class="page-container">
-    <span id="title-container">Study Buddy</span>
-    <taipy:button on_action="button_pressed">Start</taipy:button>
-    <button>Exit</button>
-  </div>
+    <link rel="stylesheet" href="home.css"></link><div id="title">
+        
+        <h1>study <span id="buddy"><div class="wrapper">
+        <div class="typing-demo">buddy</div>
+        </div></span></h1>
+        <div id="sum">your helpful study companion.</div>
+    </div>
+    <div id="buttons">
+        <button>start</button>
+    </div>
 """)
 
-def button_pressed(self, state):
-  Gui.navigate(state, "dif")
 dif = Html("""
-  <div class="page-container" id="dif-body">
-  </div>
+<link rel="stylesheet" href="difficulty.css"></link>
+<div id="title">
+        <h1>study <span id="buddy"><div class="wrapper">
+        <div class="typing-demo">buddy</div>
+        </div></span></h1>
+        <div id="sum">your helpful study companion.</div>
+    </div>
+    <div id="select">
+    <div>
+    Select your grade
+    <taipy:selector lov="1st Grade; 2nd Grade; 3rd Grade" dropdown="True">{value}</taipy:selector>
+    </div>
+    <div>
+    Select your difficulty
+    <taipy:selector lov="Easy; Medium; Hard" dropdown="True">{value}</taipy:selector></div>
+    </div>
 """)
 
 pages = {
-  "home": home,
-  "dif": dif,
+    "home": home,
+    "diff" : dif,
 }
 
-Gui(pages=pages, css_file="style.css").run(use_reloader=True, dark_mode=False)
+Gui(pages=pages).run(use_reloader=True, dark_mode=False)
