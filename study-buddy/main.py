@@ -28,7 +28,7 @@ diff = Html("""
     <div id="select">
     <div>
     Select your grade
-    <taipy:selector lov="1st Grade; 2nd Grade; 3rd Grade; 4th Grade; 5th Grade" dropdown="True">{grade}</taipy:selector>
+    <taipy:selector lov="3rd Grade" dropdown="True">{grade}</taipy:selector>
     </div>
     <div>
     Select your difficulty
