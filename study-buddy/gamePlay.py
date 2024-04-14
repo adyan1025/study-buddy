@@ -1,14 +1,18 @@
-from taipy.gui import Gui, Html, notify
+from taipy.gui import Gui, Html, notify, State
 import taipy.gui.builder as tgb
+
+value = ""
 
 home = Html("""
 <div class="split left">
     <div class="centered">
         <img src="./images/Player.jpg" alt="Avatar woman"></img>
         <h2>Player</h2>
+        
+        
+            
             
         <taipy:input>{value}</taipy:input>
-        <taipy:button on_action="button_action_function_name">Button Label</taipy:button>
     </div>
 </div>
 
@@ -18,6 +22,9 @@ home = Html("""
         <h2>The Study Buddy</h2>
     </div>
 </div>
+            
+
+
 """)
 
 def button_pressed(self, state):
@@ -32,13 +39,26 @@ pages = {
   "dif": dif,
 }
 
-def button_action_function_name(state, var_name):
-  print("button pressed")
-  if var_name == "text":
-    print(" got here")
+answer = ""
+
+#<taipy:button on_action="button_action_function_name">Button Label</taipy:button>
 
 
+button_pressed = False
 
+def button_action_function_name(state):
+   button_pressed = True
+   print(button_pressed)
+
+
+def on_change(state, var, val):
+   if var == "value":
+      print(val)
+
+      if val == "25":
+         print("here")
+
+     
 
 
 questions = ["5 * 5 = ____", "3 * 4 = ____"]
