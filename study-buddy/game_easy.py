@@ -9,8 +9,6 @@ data = {
   "Correct": [0, 0]
 }
 
-
-
 user_right = 0
 user_wrong = 0
 ai_right = 0
@@ -32,7 +30,7 @@ text2 = current_question
 text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
 text_ai2 = current_question_ai
 
-game = Html("""
+game_easy = Html("""
 <link rel="stylesheet" href="game.css"></link>
 <div class="split left">
     <div class="centered">
@@ -56,11 +54,23 @@ game = Html("""
 </div>
 """)
 
+flag = 0
+def choose_ai(diff):
+  global flag
+  if diff == "Easy":
+    flag = 1
+  elif diff == "Medium":
+    flag = 2
+  elif diff == "Hard":
+    flag = 3
+
+
 
 def ai_answer(state):
   global ai_right
   global ai_wrong
   global game_over
+  global flag
   r1 = random.randint(1, 3)
   r2 = random.randint(1, 3)
   r3 = random.randint(1, 3)
@@ -70,22 +80,35 @@ def ai_answer(state):
     ai_right+=1
     if j >= length-1:
       game_over = True
-      navigate(state, "statsLose")
+      navigate(state, "statsLoseEasy")
     current_question_ai = iterate_ai()
     with state as s:
         s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
         s.text_ai2 = current_question_ai
   else:
      ai_wrong += 1
-  if r3 == 1:
-    ai_right+=1
-    if j >= length-1:
-      game_over = True
-      navigate(state, "statsLose")
-    current_question_ai = iterate_ai()
-    with state as s:
-      s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
-      s.text_ai2 = current_question_ai
+  if flag >= 2:
+    print("HERE medium")
+    if r3 == 1:
+      ai_right+=1
+      if j >= length-1:
+        game_over = True
+        navigate(state, "statsLoseEasy")
+      current_question_ai = iterate_ai()
+      with state as s:
+        s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
+        s.text_ai2 = current_question_ai
+  if flag >= 3:
+    print("HERE hard")
+    if r4 == 1:
+      ai_right+=1
+      if j >= length-1:
+        game_over = True
+        navigate(state, "statsLoseEasy")
+      current_question_ai = iterate_ai()
+      with state as s:
+        s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
+        s.text_ai2 = current_question_ai
   else:
     ai_wrong += 1
 
@@ -101,7 +124,7 @@ def button_pressed(state):
     user_right+=1
     data["Correct"][0] = user_right
     if i >= length-1:
-       navigate(state, "statsWin")
+       navigate(state, "statsWinEasy")
     current_question, current_answer = iterate()
     with state as s:
       s.text = "(" + str(user_right) + "/" + str(length) + " Current) "
@@ -119,7 +142,6 @@ def iterate_ai():
    global j
    j+=1
    current = list(questions_ai.keys())[j]
-  #  currentNumber = list(questions_ai.values())[j]
    return current
 
 value = None
@@ -146,12 +168,12 @@ def iterate():
 
 
 
-statsLose = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
+statsLoseEasy = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
         <div class="typing-demo"><h1>You Lost!</h1></div></div>
 <taipy:chart type="pie" values="Correct" labels="Accuracy">{data}</taipy:chart>
 """)
 
-statsWin = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
+statsWinEasy = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
         <div class="typing-demo"><h1>You Win!</h1></div></div>
 <taipy:chart type="pie" values="Correct" labels="Accuracy">{data}</taipy:chart>
 """)
@@ -176,42 +198,3 @@ options = [
         "domain": {"column": 1}
     }
 ]
-
-# layout = {
-#     # Chart title
-#     "title": "User Accuracy vs. Study Buddy Accuracy",
-#     "font": {
-#       "size: 40"
-#     },
-#     # Show traces in a 1x2 grid
-#     "grid": {
-#         "rows": 1,
-#         "columns": 2
-#     },
-#     "annotations": [
-#         # Annotation for the first trace
-#         {
-#             "text": "User",
-#             "font": {
-#                 "size": 20
-#             },
-#             # Hide annotation arrow
-#             "showarrow": False,
-#             # Move to the center of the trace
-#             "x": 0.22,
-#             "y": 0.5
-#         },
-#         # Annotation for the second trace
-#         {
-#             "text": "Study Buddy",
-#             "font": {
-#                 "size": 13
-#             },
-#             "showarrow": False,
-#             # Move to the center of the trace
-#             "x": 0.80,
-#             "y": 0.5
-#         }
-#     ],
-#     "showlegend": True
-# }

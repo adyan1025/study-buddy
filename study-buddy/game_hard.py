@@ -32,7 +32,7 @@ text2 = current_question
 text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
 text_ai2 = current_question_ai
 
-game = Html("""
+game_hard = Html("""
 <link rel="stylesheet" href="game.css"></link>
 <div class="split left">
     <div class="centered">
@@ -56,6 +56,17 @@ game = Html("""
 </div>
 """)
 
+flag = 0
+def choose_ai(diff):
+  global flag
+  if diff == "Easy":
+    flag = 1
+  elif diff == "Medium":
+    flag = 2
+  elif diff == "Hard":
+    flag = 3
+
+
 
 def ai_answer(state):
   global ai_right
@@ -70,7 +81,7 @@ def ai_answer(state):
     ai_right+=1
     if j >= length-1:
       game_over = True
-      navigate(state, "statsLose")
+      navigate(state, "statsLoseHard")
     current_question_ai = iterate_ai()
     with state as s:
         s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
@@ -81,7 +92,16 @@ def ai_answer(state):
     ai_right+=1
     if j >= length-1:
       game_over = True
-      navigate(state, "statsLose")
+      navigate(state, "statsLoseHard")
+    current_question_ai = iterate_ai()
+    with state as s:
+      s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
+      s.text_ai2 = current_question_ai
+  if r4 == 1:
+    ai_right+=1
+    if j >= length-1:
+      game_over = True
+      navigate(state, "statsLoseHard")
     current_question_ai = iterate_ai()
     with state as s:
       s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
@@ -101,7 +121,7 @@ def button_pressed(state):
     user_right+=1
     data["Correct"][0] = user_right
     if i >= length-1:
-       navigate(state, "statsWin")
+       navigate(state, "statsWinHard")
     current_question, current_answer = iterate()
     with state as s:
       s.text = "(" + str(user_right) + "/" + str(length) + " Current) "
@@ -146,12 +166,12 @@ def iterate():
 
 
 
-statsLose = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
+statsLoseHard = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
         <div class="typing-demo"><h1>You Lost!</h1></div></div>
 <taipy:chart type="pie" values="Correct" labels="Accuracy">{data}</taipy:chart>
 """)
 
-statsWin = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
+statsWinHard = Html("""<link rel="stylesheet" href="stats.css"></link><div class="wrapper">
         <div class="typing-demo"><h1>You Win!</h1></div></div>
 <taipy:chart type="pie" values="Correct" labels="Accuracy">{data}</taipy:chart>
 """)

@@ -1,5 +1,7 @@
 from taipy.gui import Gui, Html, navigate
 import game as g
+import game_easy as gE
+import game_hard as gH
 
 home = Html("""
     <link rel="stylesheet" href="home.css"></link><div id="title">
@@ -57,16 +59,29 @@ def go_game(state):
     if state.grade == None or state.difficulty == None:
         pass
     else:
-        print(state.grade)
-        g.choose_ai(state.difficulty)
-        navigate(state, "game")
+        print(state.difficulty)
+        if state.difficulty == "Easy":
+            print("This is easy")
+            navigate(state, "game_easy")
+        elif state.difficulty == " Hard":
+            print("This is hard")
+            navigate(state, "game_hard")
+        else:
+            print("This is med")
+            navigate(state, "game")
 
 pages = {
     "home": home,
     "diff" : diff,
     "game" : g.game,
     "statsWin" : g.statsWin,
-    "statsLose" : g.statsLose
+    "statsLose" : g.statsLose,
+    "game_easy" : gE.game_easy,
+    "statsWinEasy" : gE.statsWinEasy,
+    "statsLoseEasy" : gE.statsLoseEasy,
+    "game_hard" : gH.game_hard,
+    "statsWinHard" : gH.statsWinHard,
+    "statsLoseHard" : gH.statsLoseHard,
 }
 
 Gui(pages=pages).run(use_reloader=True, dark_mode=False)
