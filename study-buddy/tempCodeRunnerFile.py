@@ -1,0 +1,1 @@
+navigate(state, "game")
