@@ -77,10 +77,10 @@ def ai_answer(state):
   global ai_right
   global ai_wrong
   global game_over
-  r1 = random.randint(1, 3)
-  r2 = random.randint(1, 3)
-  r3 = random.randint(1, 3)
-  r4 = random.randint(1, 3)
+  r1 = random.randint(1, 4)
+  r2 = random.randint(1, 4)
+  r3 = random.randint(1, 4)
+  r4 = random.randint(1, 4)
 
   if r1 == 1:
     ai_right+=1
@@ -93,6 +93,17 @@ def ai_answer(state):
         s.text_ai2 = current_question_ai
   else:
      ai_wrong += 1
+  if r2 == 1:
+    ai_right+=1
+    if j >= length-1:
+      game_over = True
+      navigate(state, "statsLoseHard")
+    current_question_ai = iterate_ai()
+    with state as s:
+      s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
+      s.text_ai2 = current_question_ai
+  else:
+    ai_wrong += 1
   if r3 == 1:
     ai_right+=1
     if j >= length-1:
@@ -102,6 +113,8 @@ def ai_answer(state):
     with state as s:
       s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
       s.text_ai2 = current_question_ai
+  else:
+    ai_wrong += 1
   if r4 == 1:
     ai_right+=1
     if j >= length-1:
