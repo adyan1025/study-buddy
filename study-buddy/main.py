@@ -1,4 +1,5 @@
 from taipy.gui import Gui, Html, navigate
+import gamePlay as g
 
 home = Html("""
     <link rel="stylesheet" href="home.css"></link><div id="title">
@@ -55,11 +56,12 @@ def go_game(state):
     else:
         print(state.grade)
         print(state.difficulty)
-        navigate(state, "home")
+        navigate(state, "game")
 
 pages = {
     "home": home,
     "diff" : diff,
+    "game" : g.game,
 }
 
 Gui(pages=pages).run(use_reloader=True, dark_mode=False)
