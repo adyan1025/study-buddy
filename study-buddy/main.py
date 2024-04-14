@@ -1,6 +1,6 @@
 from taipy.gui import Gui, Html, navigate
 import gamePlay as g
-import stats as s
+import statsWins as sW
 
 home = Html("""
     <link rel="stylesheet" href="home.css"></link><div id="title">
@@ -63,7 +63,8 @@ pages = {
     "home": home,
     "diff" : diff,
     "game" : g.game,
-    "stats" : s.stats
+    "statsWin" : g.statsWin,
+    "statsLose" : g.statsLose
 }
 
 Gui(pages=pages).run(use_reloader=True, dark_mode=False)

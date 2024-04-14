@@ -1,1 +1,2 @@
-navigate(state, "game")
+</div>
+        </div></span>
