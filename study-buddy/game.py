@@ -6,8 +6,10 @@ from math import cos, exp
 
 data = {
   "Accuracy": ["Correct","Incorrect"],
-  "Correct": [1, 1]
+  "Correct": [0, 0]
 }
+
+
 
 user_right = 0
 user_wrong = 0
@@ -54,14 +56,29 @@ game = Html("""
 </div>
 """)
 
+flag = 0
+def choose_ai(diff):
+  global flag
+  if diff == "Easy":
+    flag = 1
+  elif diff == "Medium":
+    flag = 2
+  elif diff == "Hard":
+    flag = 3
+
+
 
 def ai_answer(state):
   global ai_right
   global ai_wrong
   global game_over
-  r = random.randint(1, 3)
-  g = random.randint(1, 3)
-  if r == 1:
+  global flag
+  r1 = random.randint(1, 3)
+  r2 = random.randint(1, 3)
+  r3 = random.randint(1, 3)
+  r4 = random.randint(1, 3)
+
+  if r1 == 1:
     ai_right+=1
     if j >= length-1:
       game_over = True
@@ -72,18 +89,30 @@ def ai_answer(state):
         s.text_ai2 = current_question_ai
   else:
      ai_wrong += 1
-  if g == 1:
-    ai_right+=1
-    if j >= length-1:
-      game_over = True
-      navigate(state, "statsLose")
-    current_question_ai = iterate_ai()
-    with state as s:
-      s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
-      s.text_ai2 = current_question_ai
+  if flag >= 2:
+    print("HERE medium")
+    if r3 == 1:
+      ai_right+=1
+      if j >= length-1:
+        game_over = True
+        navigate(state, "statsLose")
+      current_question_ai = iterate_ai()
+      with state as s:
+        s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
+        s.text_ai2 = current_question_ai
+  if flag >= 3:
+    print("HERE hard")
+    if r4 == 1:
+      ai_right+=1
+      if j >= length-1:
+        game_over = True
+        navigate(state, "statsLose")
+      current_question_ai = iterate_ai()
+      with state as s:
+        s.text_ai = "(" + str(ai_right) + " / " + str(length) + " Correct)" 
+        s.text_ai2 = current_question_ai
   else:
     ai_wrong += 1
-
 
 def button_pressed(state):
   global data

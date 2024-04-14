@@ -1,6 +1,5 @@
 from taipy.gui import Gui, Html, navigate
-import gamePlay as g
-import statsWins as sW
+import game as g
 
 home = Html("""
     <link rel="stylesheet" href="home.css"></link><div id="title">
@@ -29,7 +28,7 @@ diff = Html("""
     <div id="select">
     <div>
     Select your grade
-    <taipy:selector lov="1st Grade; 2nd Grade; 3rd Grade" dropdown="True">{grade}</taipy:selector>
+    <taipy:selector lov="1st Grade; 2nd Grade; 3rd Grade; 4th Grade; 5th Grade" dropdown="True">{grade}</taipy:selector>
     </div>
     <div>
     Select your difficulty
@@ -46,17 +45,20 @@ def on_change(state, var, val):
     if var == "grade":
         with state as s:
             s.grade = val
+            
     if var == "difficulty":
         with state as s:
             s.difficulty = val
 
 
+
+
 def go_game(state):
     if state.grade == None or state.difficulty == None:
-        print("error!")
+        pass
     else:
         print(state.grade)
-        print(state.difficulty)
+        g.choose_ai(state.difficulty)
         navigate(state, "game")
 
 pages = {
