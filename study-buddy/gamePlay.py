@@ -2,8 +2,11 @@ from taipy.gui import Gui, Html, notify, State
 import taipy.gui.builder as tgb
 
 i = 0
-questions = ["5 * 5 = ____", "3 * 4 = ____", "8 * 6 = ____"]
-current_question =questions[0]
+questions = {"5 * 5 = ____": "25", 
+             "3 * 4 = ____": "12", 
+             "8 * 6 = ____": "48"}
+current_question = list(questions.keys())[0]
+current_answer = list(questions.values())[0]
 text = current_question
 
 game = Html("""
@@ -25,18 +28,18 @@ game = Html("""
         <h2>The Study Buddy</h2>
     </div>
 </div>
-            
-
-
 """)
 
 def button_pressed(state):
   global value
-  print(value)
-  if value == "25":
-    current = iterate()
+  global current_answer
+  global current_question
+  print(value + "" + current_answer)
+  if value == current_answer:
+    print(current_answer)
+    current_question, current_answer = iterate()
     with state as s:
-      s.text = current
+      s.text = current_question
 
    
 #   Gui.navigate(state, "dif")
@@ -65,8 +68,9 @@ def on_change(state, var, val):
 def iterate():
    global i
    i+=1
-   current = questions[i]
-   return current
+   current = list(questions.keys())[i]
+   currentNumber = list(questions.values())[i]
+   return current, currentNumber
 
 
 
