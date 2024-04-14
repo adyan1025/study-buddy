@@ -1,15 +1,13 @@
-from taipy.gui import Html, navigate, Gui, Markdown
-import taipy.gui.builder as tgb
+from taipy.gui import Html, navigate
 import random
-from math import cos, exp
 
+
+counter = 30
 
 data = {
   "Accuracy": ["Correct","Incorrect"],
   "Correct": [0, 0]
 }
-
-
 
 user_right = 0
 user_wrong = 0
@@ -20,7 +18,12 @@ questions = {"5 * 5 = ____": "25",
              "3 * 4 = ____": "12", 
              "8 * 6 = ____": "48", 
              "12 * 12 = ____": "144",
-             "8 * 8 = ____": "64"}
+             "2 * 9 = ____": "18",
+             "10 * 10 = ____": "100",
+             "4 * 1 = ____": "4",
+             "100 * 0 = ____": "0",
+             "0 * 100 = ____": "0",
+             "11 * 12 = ____": "132"}
 questions_ai = questions
 length = len(questions)
 current_question = list(questions.keys())[0]
@@ -44,10 +47,8 @@ game = Html("""
         <taipy:button on_action="button_pressed">Enter</taipy:button>
     </div>
 </div>
-
 <div class="split right">
     <div class="centered">
-            
         <img src="./images/AI.jpg" alt="Avatar man"></img>
         <h2>The Study Buddy</h2>
         <taipy:text>{text_ai}</taipy:text><br></br>
@@ -98,6 +99,8 @@ def button_pressed(state):
   global current_answer
   global current_question
   if value == current_answer:
+    global counter
+    counter -=1
     user_right+=1
     data["Correct"][0] = user_right
     if i >= length-1:
@@ -107,6 +110,7 @@ def button_pressed(state):
       s.text = "(" + str(user_right) + "/" + str(length) + " Current) "
       s.text2 = current_question
   else:
+     counter-=1
      user_wrong += 1
      data["Correct"][1] = user_wrong
      print(data["Correct"][1])
